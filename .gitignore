@@ -7,7 +7,6 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 /HELP.md
-/.mvn
 /.idea
 /target
 /budgetingapp.iml
