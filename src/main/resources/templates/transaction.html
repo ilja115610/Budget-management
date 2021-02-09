@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transactions</title>
+    <script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+</head>
+<body>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb h3">
+                        <li class="breadcrumb-item"><a href="/budgets">Budgets</a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a th:href="@{/budgets/{Id}(Id=${budget.id})}" th:text="${budget.name}"></a></li>
+                        <li class="breadcrumb-item active" aria-current="page" th:text="${'New Transaction #'+transaction.id}"></li>
+                    </ol>
+                </nav>
+        </div>
+    </div>
+
+
+<div class="card-body">
+    <form method="post" action="" th:object="${transaction}">
+        <input type="hidden" th:field="${transaction.id}"/>
+        <input type="hidden" th:field="${budget.id}"/>
+
+        <!-- Transaction Date -->
+        <div class="form-group row">
+            <label id="label" for="date" class="col-sm-2 col-form-label form-control-lg">Date: </label>
+            <div class="col-sm-10">
+                <input id="date" type="date" class="form-control form-control-lg" th:field="${transaction.date}" placeholder="Date"/>
+            </div>
+        </div>
+
+        <!--  Amount -->
+        <div class="form-group row">
+            <label for="amount" class="col-sm-2 col-form-label form-control-lg">Amount: </label>
+
+            <div class="col-sm-10">
+            <input id="amount" type="number" step=".01" class="form-control form-control-lg" th:field="${transaction.total}" placeholder="Enter amount"/>
+            </div>
+        </div>
+
+        <div class="input-group row">
+                <label for="amount" class="col-sm-2 col-form-label form-control-lg">Category: </label>
+            <div class="col-sm-10">
+
+            <select class="custom-select" id="inputGroupSelect01" th:field="${transaction.category}">
+                <option th:each="id : ${categories}"
+                        th:value="${id.getId()}"
+                        th:selected="${id.id}"
+                        th:text="${id.name}">Choose...</option>
+            </select>
+            </div>
+            </div>
+
+        <div class="input-group row">
+            <label class="col-sm-2 col-form-label form-control-lg" for="toggle">Type:</label>
+                <div class="col-sm-10">
+                    <input type="checkbox" id="toggle" checked data-toggle="toggle" th:field="${transaction.type}"
+                            value="Credit" th:checked="${transaction.type}"  data-on="Credit" data-off="Debit" data-onstyle="success" data-offstyle="danger">
+            </div>
+        </div>
+
+
+        <div class="input-group row">
+            <label for="note" class="col-sm-2 col-form-label form-control-lg">Notes: </label>
+            <div class="col-sm-10">
+                <textarea maxlength="255" id="note" class="form-control form-control-lg" th:field="${transaction.note}" placeholder="(Optional) Insert any notes about your transaction here"></textarea>
+            </div>
+        </div>
+        <button id="saveBtn" class="btn btn-primary btn-lg">Save</button>
+    </form>
+
+</div>
+</div>
+
+</body>
+</html>

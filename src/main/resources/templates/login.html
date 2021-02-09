@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#registerBtn").click(function () {
+                window.location.href = '/register';
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="card">
+    <h2 class="card-header">
+        Please Login Below
+    </h2>
+    <div class="card-body">
+        <form action="" method="post" th:object="${user}" >
+            <fieldset>
+                <!-- use param.error assuming FormLoginConfigurer#failureUrl contains the query parameter error -->
+                <div th:if="${param.error != null}" style="color: red;">
+                    <div>
+                        Failed to login.
+                        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION'] != null}">
+                            Reason: <span
+                                th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- the configured LogoutConfigurer#logoutSuccessUrl is /login?logout and contains the query param logout -->
+                <div th:if="${param.logout != null}">You have been
+                    logged out.</div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input class="form-control" type="text" id="username" th:field="${user.username}" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" th:field="${user.password}" />
+                </div>
+                <div>
+                    <button type="submit" class="btn">Log in</button>
+                    <button id="registerBtn" type="button"
+                            class="btn btn-primary">Register</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</body>
+</html>

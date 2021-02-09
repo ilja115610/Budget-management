@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories</title>
+    <script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/linksStyle.css"/>
+    <script th:inline="javascript">
+
+        $(function () {
+            const hasTransactions = /*[[${hasTransactions}]]*/ false;
+
+            if(hasTransactions) {
+                $('#save').text('Edit');
+            }
+
+        });
+
+        function rowClicked(value1) {
+            location.href = "/budgets/"+value1.split('+')[0]+"/groups/"+value1.split('+')[1]+"/categories/"+value1.split('+')[2]+"/transactions/"+value1.split('+')[3];
+        }
+
+    </script>
+</head>
+<body>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-10 col-md-11">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb h3">
+                    <li class="breadcrumb-item"><a href="/budgets">Budgets</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a th:href="@{/budgets/{Id}(Id=${group.budget.id})}" th:text="${group.budget.name}"></a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a th:href="@{/budgets/{budgetId}/(budgetId=${group.budget.id})}" th:text="${group.name==null||group.name.isEmpty()?'New Group':group.name}"></a></li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="${category.name==null||category.name.isEmpty()?'New Category':category.name}"></li>
+                </ol>
+            </nav>
+            </div>
+            <div class="col-2 col-md-1">
+                <form id="addTransactionForm" th:action="@{/budgets/{budgetId}/groups/{groupId}/categories/{categoryId}/transactions(budgetId=${group.budget.id},groupId=${group.id},categoryId=${category.id})}" method="post">
+                    <button class="btn btn-success btn-circle btn-sm"><i id="addTransaction" class="fas fa-plus-circle" aria-hidden="true"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="alert alert-secondary link" role="alert">
+          <span class="h5" th:inline="text" id="startDate" th:text="${#temporals.format(group.budget.startDate,'dd/MM/yyyy')}">
+          </span>
+            <strong> - </strong>
+            <span class="h5" th:inline="text" id="endDate" th:text="${#temporals.format(group.budget.endDate,'dd/MM-yyyy')}">
+          </span>
+        </div>
+    </div>
+    <div class="card-body">
+        <form method="post" action="">
+            <input type="hidden" th:field="${category.id}"/>
+
+            <!-- Category Name -->
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label form-control-lg">Name: </label>
+                <div class="col-sm-10">
+                    <input id="name" type="text" class="form-control form-control-lg" th:field="${category.name}" placeholder="Enter category name"/>
+                </div>
+            </div>
+
+            <!-- Category Budget Amount -->
+            <div class="input-group row">
+                <label for="budget" class="col-sm-2 col-form-label form-control-lg">Amount: </label>
+
+                <div style="margin-left: 20px" class="input-group-prepend">
+                    <span class="input-group-text">€</span>
+                </div>
+                <input id="budget" type="number" step=".01" class="form-control form-control-lg" th:field="${category.budget}" placeholder="Enter amount"/>
+
+            </div>
+
+            <button id="save" class="btn btn-primary btn-lg">Save</button>
+        </form>
+        <br>
+        <div style="margin-top: 10px">
+            <h3 style="color: #007bff; text-decoration: underline">Transactions: </h3>
+        </div>
+
+            <table style="border-spacing: 0 3px; border-collapse: separate" class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Comment</th>
+                    <th scope="col">Amount</th>
+                </tr>
+                </thead>
+
+                <tbody>
+               <tr style="cursor: pointer" th:each="tx: ${filteredTx}" th:attr="onclick=|rowClicked('${group.budget.id}+${group.id}+${category.id}+${tx.id}')|"  >
+
+                    <td th:text="${#temporals.format(tx.date, 'dd/MM/yyyy') }" th:classappend="${tx.type!=null&&tx.type.equalsIgnoreCase('debit')}?'list-group-item-danger':'list-group-item-success'"></td>
+
+                    <td th:text="${tx.note }"  th:classappend="${tx.type!=null&&tx.type.equalsIgnoreCase('debit')}?'list-group-item-danger':'list-group-item-success'"></td>
+
+                    <td  th:text="${tx.total+'€'}" th:classappend="${tx.type!=null&&tx.type.equalsIgnoreCase('debit')}?'list-group-item-danger':'list-group-item-success'"> </td>
+                </tr>
+                </tbody>
+            </table>
+
+    </div>
+</div>
+
+
+</body>
+</html>
