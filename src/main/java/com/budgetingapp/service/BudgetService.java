@@ -30,7 +30,7 @@ public class BudgetService {
         return budgetRepo.findAllByUsersIn(users);
     }
 
-    public Budget createNewBudget(User user, Budget budget) {
+    public Budget createNewBudget(User user, Budget budget, String total) {
         Set<User> users = new HashSet<>();
         Set<Budget> budgets = new HashSet<>();
 
@@ -40,7 +40,7 @@ public class BudgetService {
 
         long count = getBudgetCount(users);
 
-        budget.setName("New Budget #" + ++count);
+        budget.setName(LocalDate.now().getMonth().toString()+" Budget #" + ++count);
         budget.setUsers(users);
 
         LocalDate firstOfMonth = LocalDate.now().withDayOfMonth(1);
@@ -53,6 +53,8 @@ public class BudgetService {
         budget.setEndDate(lastOfMonth);
 
         user.setBudgets(budgets);
+
+        budget.setTotalPlanned(Double.parseDouble(total));
 
         return budgetRepo.save(budget);
     }

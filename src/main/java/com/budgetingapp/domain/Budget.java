@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.SortNatural;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -43,6 +44,9 @@ public class Budget implements Comparable<Budget> {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "budget")
     private Set<Transaction> transactions = new HashSet<>();
 
+
+    private double totalPlanned;
+
     public Budget() {
     }
 
@@ -51,6 +55,34 @@ public class Budget implements Comparable<Budget> {
         this.name = name;
         this.groups = groups;
         this.users = users;
+    }
+
+    @Transient
+    public BigDecimal getSpent() {
+        double sum = this.getTransactions().stream().filter(tx->tx.getType().equalsIgnoreCase("debit"))
+                .filter(tx->tx.getDate().isEqual(this.getStartDate())|tx.getDate().isAfter(this.getStartDate())
+                        &&tx.getDate().isEqual(this.getEndDate())|tx.getDate().isBefore(this.getEndDate()))
+                .mapToDouble(t -> {
+                    if (t.getTotal() == null)
+                        return 0.0;
+                    else
+                        return t.getTotal().doubleValue();
+                })
+                .sum();
+        return BigDecimal.valueOf(sum);
+    }
+
+    @Transient
+    public double getRemaining () {
+        return ((totalPlanned-getSpent().doubleValue())/totalPlanned)*100;
+    }
+
+    public double getTotalPlanned() {
+        return totalPlanned;
+    }
+
+    public void setTotalPlanned(double totalPlanned) {
+        this.totalPlanned = totalPlanned;
     }
 
     public LocalDate getStartDate() {

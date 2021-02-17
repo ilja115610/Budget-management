@@ -1,6 +1,7 @@
 package com.budgetingapp.controllers;
 
 import com.budgetingapp.domain.Budget;
+import com.budgetingapp.domain.Category;
 import com.budgetingapp.domain.User;
 import com.budgetingapp.service.BudgetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +45,11 @@ public class BudgetController {
         return "budget";
     }
 
-    private void populateUserBudgetsOnModel(User user, ModelMap model)
-    {
+    private void populateUserBudgetsOnModel(User user, ModelMap model) {
         TreeSet<Budget> budgets = budgetService.getBudgets(user);
 
         model.addAttribute("budgets", budgets);
+
     }
 
     @PutMapping("{budgetId}")
@@ -64,11 +65,12 @@ public class BudgetController {
 
 
     @PostMapping("")
-    public @ResponseBody Budget postBudget(@AuthenticationPrincipal User user, ModelMap model)
+    public @ResponseBody Budget postBudget(@AuthenticationPrincipal User user, ModelMap model, @RequestParam String total)
     {
         Budget budget = new Budget();
 
-        budget = budgetService.createNewBudget(user, budget);
+        budget = budgetService.createNewBudget(user, budget, total);
+
 
         populateUserBudgetsOnModel(user, model);
 
