@@ -5,7 +5,11 @@
     <title>This is page with budgets</title>
     <script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/simple-donut.css" type="text/css"/>
+    <script src="/js/simple-donut-jquery.js"></script>
+
 <script>
+
     $ (function () {
         $('#addBudget').click(function (){
            let budget = prompt("Please set planned budget");
@@ -32,10 +36,10 @@
     <div class="card-header">
         <div class="row">
             <div class="h2 col-8">
-                Your Budgets
+                Your Budgets:
             </div>
             <div class="col-3">
-                <button class="btn btn-success "><i id="addBudget"  aria-hidden="true"> + New budget</i></button>
+                <button id="addBudget" class="btn btn-success ">+ New budget</button>
             </div>
             <div class="col-1">
                 <a href="/logout" ><button class="btn btn-danger">Logout</button></a>
@@ -48,15 +52,37 @@
             <div class="col-10 border-right" >
         <h3><a th:href="@{/budgets/{id}(id=${budget.id})}" th:text="${budget.name}" class="list-group-item list-group-item-action list-group-item-light py-4" style=" color: #007bff"></a></h3>
             </div>
-            <div class="progress col-2 my-auto">
-                <div class="progress-bar " role="progressbar" th:style=" 'width: '+ ${budget.getRemaining()}+ '%'" th:text="${#numbers.formatDecimal(budget.getRemaining(),1,0)+'%'}"  aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="col-2 my-auto">
+                <div th:id="${budget.id}" id="demo" class="donut-size" th:attr="data='${budget.getRemaining()}'" th:data="${budget.getRemaining()}">
+                    <div class="pie-wrapper">
+                <span class="label">
+                        <span class="num">0</span><span class="smaller">%</span>
+                </span>
+                        <div class="pie">
+                            <div class="left-side half-circle"></div>
+                            <div class="right-side half-circle"></div>
+                        </div>
+                        <div class="shadow"></div>
+                    </div>
+                </div>
+                <script th:inline="javascript" >
+                    //<![CDATA[
+                    $(function () {
+                        let id = /*[[${budget.id}]]*/ 'demo';
+                        let atr = document.getElementById(id).getAttribute('data');
+                        updateDonutChart('#'+id,parseFloat(atr),false);
+                        console.log(parseFloat(atr))
+                    })
+                    //]]>
+                </script>
+            </div>
+            <div class="progress col-10 my-auto">
+                <div class="progress-bar " role="progressbar" th:style=" 'width: '+ ${budget.getRemaining()}+ '%'" th:text="${#numbers.formatDecimal(budget.getRemaining(),1,0)+'% remaining'}"  aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
             </div>
             </div>
 
     </div>
-</div>
-
-
 
 </body>
 </html>

@@ -64,7 +64,7 @@
             </div>
             <div class="col-2 col-md-1">
                 <form id="addTransactionForm" th:action="@{/budgets/{budgetId}/transactions(budgetId=${budget.id})}" method="post">
-                    <button class="btn btn-success btn-circle btn-sm"><i id="addTransaction" class="fas fa-plus-circle" aria-hidden="true"></i></button>
+                    <button id="addTransaction" class="btn btn-success btn-circle btn-sm">Add transaction +</button>
                 </form>
             </div>
         </div>

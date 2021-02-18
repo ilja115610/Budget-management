@@ -7,20 +7,15 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/linksStyle.css"/>
     <script th:inline="javascript">
-
         $(function () {
             const hasTransactions = /*[[${hasTransactions}]]*/ false;
-
             if(hasTransactions) {
                 $('#save').text('Edit');
             }
-
         });
-
         function rowClicked(value1) {
             location.href = "/budgets/"+value1.split('+')[0]+"/groups/"+value1.split('+')[1]+"/categories/"+value1.split('+')[2]+"/transactions/"+value1.split('+')[3];
         }
-
     </script>
 </head>
 <body>
@@ -40,7 +35,7 @@
             </div>
             <div class="col-2 col-md-1">
                 <form id="addTransactionForm" th:action="@{/budgets/{budgetId}/groups/{groupId}/categories/{categoryId}/transactions(budgetId=${group.budget.id},groupId=${group.id},categoryId=${category.id})}" method="post">
-                    <button class="btn btn-success btn-circle btn-sm"><i id="addTransaction" class="fas fa-plus-circle" aria-hidden="true"></i></button>
+                    <button id="addTransaction" class="btn btn-success btn-circle btn-sm">Add transaction +</button>
                 </form>
             </div>
         </div>
