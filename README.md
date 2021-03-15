@@ -19,5 +19,5 @@ Clone Repository
 
 **Try it live**
 
-`HEROCU`
+`https://budgeting-app-demo.herokuapp.com/`
 
