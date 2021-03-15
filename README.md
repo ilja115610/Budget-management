@@ -1,6 +1,8 @@
-**Budget management application**
+## **Budget management application**
 
 Spring-Boot/ Spring Security/ Spring-Data-JPA/ Thymeleaf/ JavaScript/ JQuery/ Bootstrap  
+
+##
 
 Easy-to-use budget manager will help you to manage your daily budget operations, track and plan your finances.
 
