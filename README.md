@@ -19,7 +19,7 @@ Clone Repository
 
 `mvn spring-boot:run`
 
-**Try it live**
+## **Live demo: **
 
 `https://budgeting-app-demo.herokuapp.com/`
 
