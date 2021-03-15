@@ -26,3 +26,11 @@ Clone Repository
 
 
 <img src="https://user-images.githubusercontent.com/57315435/108257588-aba1a600-7167-11eb-9678-6d4ac8333773.PNG" width = "400">
+
+<img src="https://user-images.githubusercontent.com/57315435/107504085-7a433c00-6ba3-11eb-8b5a-753259f7ee75.PNG" width = "400">
+
+<img src="https://user-images.githubusercontent.com/57315435/107504094-7d3e2c80-6ba3-11eb-9021-a020f23531cf.PNG" width = "400">
+
+
+<img src="https://user-images.githubusercontent.com/57315435/109012867-295f3780-76bb-11eb-8ec8-fea891bb48b7.PNG" width = "400">
+
