@@ -24,5 +24,5 @@ Clone Repository
 ##
 **Screenshots:**
 
-![alt text](https://user-images.githubusercontent.com/57315435/108257588-aba1a600-7167-11eb-9678-6d4ac8333773.PNG)
+![alt text](https://user-images.githubusercontent.com/57315435/108257588-aba1a600-7167-11eb-9678-6d4ac8333773.PNG {width=40px height=400px})
 
